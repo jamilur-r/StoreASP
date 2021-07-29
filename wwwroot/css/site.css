@@ -1,0 +1,17 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.con {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.lg-con {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.btn {
+  @apply px-2 py-3 bg-prime text-second rounded font-bold;
+}

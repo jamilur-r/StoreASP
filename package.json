@@ -1,0 +1,14 @@
+{
+  "name": "StoreASP",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.3.1",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.7"
+  },
+  "scripts": {
+    "build": "npx tailwindcss -i ./wwwroot/css/site.css -o ./wwwroot/css/out.css"
+  }
+}
