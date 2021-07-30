@@ -10,16 +10,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="~/css/out.css">
+    <script src="~/js/feather.js"></script>
 </head>
 
 <body class="p-0 m-0 overflow-x-hidden border-box font-pop text-white bg-prime">
     <partial name="_Header" />
-    <main>
+    <main class="mt-3">
         @RenderBody()
     </main>
     <partial name="_Footer" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        feather.replace()
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

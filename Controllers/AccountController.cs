@@ -5,6 +5,7 @@ using StoreASP.Models;
 using System.Threading.Tasks;
 using System.Web;
 using StoreASP.Models.FormModel;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace StoreASP.Controllers
@@ -24,17 +25,126 @@ namespace StoreASP.Controllers
 
 
         [HttpGet]
-        public IActionResult Register() {
-            return View("/Account/Register");
+        [Authorize(Roles = "USER")]
+        public IActionResult Dash()
+        {
+            return View();
         }
 
-        
+        [HttpGet]
+        [Authorize(Roles = "ADMIN")]
+        public IActionResult AdminDash()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetDash()
+        {
+            var x = _userManager.GetUserAsync(HttpContext.User).Result;
+
+            if (_userManager.IsInRoleAsync(x, "ADMIN").Result)
+            {
+                return RedirectToAction("AdminDash");
+            }
+            else
+            {
+                return RedirectToAction("Dash");
+            }
+        }
+
+        public IActionResult Login()
+        {
+            if (_signinManager.IsSignedIn(HttpContext.User))
+            {
+                var x = _userManager.GetUserAsync(HttpContext.User).Result;
+
+                if (_userManager.IsInRoleAsync(x, "ADMIN").Result)
+                {
+                    return RedirectToAction("AdminDash");
+                }
+                else
+                {
+                    return RedirectToAction("Dash");
+                }
+
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            if (_signinManager.IsSignedIn(HttpContext.User))
+            {
+                var x = _userManager.GetUserAsync(HttpContext.User).Result;
+
+                if (_userManager.IsInRoleAsync(x, "ADMIN").Result)
+                {
+                    return RedirectToAction("AdminDash");
+                }
+                else
+                {
+                    return RedirectToAction("Dash");
+                }
+
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(SignInForm formData)
+        {
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    User user = await _userManager.FindByEmailAsync(formData.Email);
+                    if (user != null)
+                    {
+                        await _signinManager.SignInAsync(user, true);
+                        if (_userManager.IsInRoleAsync(user, "ADMIN").Result)
+                        {
+                            return RedirectToAction("AdminDash", "Account");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Dash", "Accoount");
+                        }
+                    }
+                    else
+                    {
+                        return View();
+                    }
+                }
+                return View();
+            }
+            catch (System.Exception)
+            {
+
+                return View();
+            }
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(SignUpForm formData)
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
                     User user = await _userManager.FindByEmailAsync(formData.Email);
@@ -49,21 +159,54 @@ namespace StoreASP.Controllers
                         IdentityResult result = await _userManager.CreateAsync(user, formData.Password);
                         if (result.Succeeded)
                         {
-                            await _userManager.AddToRoleAsync(user, "Admin");
+                            await _userManager.AddToRoleAsync(user, "USER");
                             await _signinManager.SignInAsync(user, true);
-                            
-                            return RedirectToPage("/Index");
+
+                            if (_userManager.IsInRoleAsync(user, "ADMIN").Result)
+                            {
+                                return RedirectToAction("AdminDash");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Dash");
+                            }
                         }
                     }
                 }
-                return RedirectToPage("/Index");
+                return View();
 
             }
             catch (System.Exception)
             {
 
-                throw;
+                return View();
             }
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                await _signinManager.SignOutAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            catch (System.Exception)
+            {
+
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
+        [Route("/Account/AccessDenied")]
+        public ActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
+
+

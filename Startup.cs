@@ -27,6 +27,18 @@ namespace StoreASP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDBContext>(
+                cfg =>
+                {
+                    cfg.UseSqlServer(Configuration.GetConnectionString("StoreASP"));
+                }
+            );
+            services.AddDbContext<SiteDBContext>(
+                Cfg =>
+                {
+                    Cfg.UseSqlServer(Configuration.GetConnectionString("StoreASP"));
+                }
+            );
             services.AddControllersWithViews();
             services.AddIdentity<User, UserRole>(
                 options =>
@@ -35,12 +47,7 @@ namespace StoreASP
                 }
             ).AddEntityFrameworkStores<AppDBContext>();
 
-            services.AddDbContext<AppDBContext>(
-                cfg =>
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("StoreASP"));
-                }
-            );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
