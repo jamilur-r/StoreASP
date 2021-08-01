@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System;
 
-namespace StoreASP.Models
+namespace StoreASP.Models.FormModel
 {
-    public class SiteSettings
-    {
-        [Key]
+    public class SiteSettingsForm {
         public Guid Id {get; set;}
 
         

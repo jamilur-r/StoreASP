@@ -8,6 +8,6 @@ namespace StoreASP.Data
     {
         public SiteDBContext(DbContextOptions<SiteDBContext> options) : base(options) { }
         
-        DbSet<SiteSettings> SiteSettingss {get; set;}
+        public DbSet<SiteSettings> SiteSettingss {get; set;}
     }
 }
