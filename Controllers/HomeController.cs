@@ -6,21 +6,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StoreASP.Models;
+using StoreASP.Data;
+using StoreASP.Models.ViewModel;
+
 
 namespace StoreASP.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SiteDBContext _Context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, SiteDBContext context)
         {
             _logger = logger;
+            _Context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            SiteSettings store = _Context.SiteSettingss.FirstOrDefault();
+            HomeView data = new HomeView{
+                Store = store
+            };
+
+            return View(data);
         }
 
         public IActionResult Privacy()

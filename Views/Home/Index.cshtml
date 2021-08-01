@@ -2,7 +2,24 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@* TOP BANNER *@
+
+@* <div class="absolute top-16 left-0"> *@
+<div class="my-5 con flex flex-col-reverse items-center justify-between md:flex-row">
+    <img src="~/Images/bg.jpg" alt="Store" class="w-80 md:w-1/2 rounded-md shadow-md">
+    <div class="w-full md:w-1/2 py-20 md:py-0 md:h-full flex flex-col items-start justify-center ml-10 ">
+        @if (Model != null)
+        {
+            <h1 class="text-xl font-bold text-second uppersace">@Model.Store.StoreName</h1>
+        }
+        else
+        {
+            <h1 class="text-xl font-bold text-second uppersace">Store</h1>
+        }
+        <p class="font-semibold text-sm text-yellow-100 my-3">Plant healthy be healthy</p>
+        <div class="flex flex-row items-center justify-center my-5">
+            <a href="#" class="bg-second text-prime px-2 py-2 text-sm font-bold">Contact</a>
+        </div>
+    </div>
 </div>
+@* </div> *@
