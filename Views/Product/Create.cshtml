@@ -1,0 +1,26 @@
+@using StoreASP.Models.FormModel
+@model ProductForm
+@{
+    ViewData["Title"] = "Products";
+}
+
+
+<div class="absolute top-20 left-20 bg-prime">
+    <form enctype="multipart/form-data" asp-controller="Product" asp-action="Create" method="post"
+        class="w-80 flex flex-col items-start justify-center">
+        <div asp-validation-summary="All" class="text-red-500 text-xs"></div>
+
+        <label asp-for="Name" class="text-sm font-bold"></label>
+        <input asp-for="Name" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3">
+
+        <label asp-for="Name" class="text-sm font-bold"></label>
+        <input asp-for="Name" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3">
+
+        <label asp-for="Name" class="text-sm font-bold"></label>
+        <input asp-for="Name" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3">
+
+        <label asp-for="Name" class="text-sm font-bold"></label>
+        <input asp-for="Name" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3">
+
+    </form>
+</div>

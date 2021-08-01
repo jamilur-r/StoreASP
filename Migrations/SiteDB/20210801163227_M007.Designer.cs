@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StoreASP.Data;
 
 namespace StoreASP.Migrations.SiteDB
 {
     [DbContext(typeof(SiteDBContext))]
-    partial class SiteDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210801163227_M007")]
+    partial class M007
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
