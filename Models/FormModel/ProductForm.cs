@@ -28,7 +28,6 @@ namespace StoreASP.Models.FormModel
 
         public float Discount { get; set; }
 
-        [Required]
         [Display(Name = "Image")]
         [DataType(DataType.Upload)]
         public string Image { get; set; }

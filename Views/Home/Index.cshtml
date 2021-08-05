@@ -8,7 +8,7 @@
 <div class="my-5 con flex flex-col-reverse items-center justify-between md:flex-row">
     <img src="~/Images/bg.jpg" alt="Store" class="w-80 md:w-1/2 rounded-md shadow-md">
     <div class="w-full md:w-1/2 py-20 md:py-0 md:h-full flex flex-col items-start justify-center ml-10 ">
-        @if (Model != null)
+        @if (Model.Store != null)
         {
             <h1 class="text-xl font-bold text-second uppersace">@Model.Store.StoreName</h1>
         }

@@ -13,14 +13,20 @@
         <label asp-for="Name" class="text-sm font-bold"></label>
         <input asp-for="Name" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3">
 
-        <label asp-for="Name" class="text-sm font-bold"></label>
-        <input asp-for="Name" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3">
+        <label asp-for="Description" class="text-sm font-bold"></label>
+        <textarea asp-for="Description" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3"></textarea>
 
-        <label asp-for="Name" class="text-sm font-bold"></label>
-        <input asp-for="Name" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3">
+        <label asp-for="Price" class="text-sm font-bold"></label>
+        <input asp-for="Price" type="number" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3">
 
-        <label asp-for="Name" class="text-sm font-bold"></label>
-        <input asp-for="Name" class="w-full text-prime font-semibold text-sm px-2 py-2 my-3">
+        <label asp-for="Discount" class="text-sm font-bold" id="range-label"></label>
+        <input asp-for="Discount" type="range" step="0.01" min="0" max="1"
+            class="w-full text-prime font-semibold text-sm px-2 py-2 my-3" id="range">
+
+        <label for="Image" class="text-sm font-bold">Image</label>
+        <input type="file" name="Image" accept="image/*|MIME_type" class="my-3 px-2 py-2 w-full bg-second text-prime">
+        
+        <input type="submit" class="my-3 px-2 py-3 bg-second text-prime font-sm font-bold w-full" value="ADD">
 
     </form>
 </div>

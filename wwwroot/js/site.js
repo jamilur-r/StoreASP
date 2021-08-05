@@ -10,3 +10,10 @@ $(".menu-toggle").on("click", function () {
 $(".auth-toggle").on("click", function () {
   $(".auth-menu").toggleClass("hidden");
 });
+
+$("#range").on("input", function () {
+  var range = document.getElementById("range");
+  var val = range.value;
+  var display = document.getElementById("range-label");
+  display.innerHTML = "Discount " + val * 100 + "%";
+});
