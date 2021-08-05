@@ -48,7 +48,7 @@ namespace StoreASP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
+
                     Utility utility = new Utility();
                     string saveName = await utility.Upload(Image, _env);
 
@@ -75,6 +75,86 @@ namespace StoreASP.Controllers
 
                 ViewBag.Error = "Failed To Create";
                 return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            try
+            {
+                Product data = await _context.Products.FindAsync(Id);
+                _context.Products.Remove(data);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch (System.Exception)
+            {
+
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid Id)
+        {
+            try
+            {
+                Product data = await _context.Products.FindAsync(Id);
+                ProductForm formData = new ProductForm
+                {
+                    Id = data.Id,
+                    Name = data.Name,
+                    Description = data.Description,
+                    Discount = data.Discount,
+                    Price = data.Price,
+                };
+                return View(formData);
+            }
+            catch (System.Exception)
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(ProductForm formData, Guid Id, IFormFile Img)
+        {
+            try
+            {
+                Product product = await _context.Products.FindAsync(Id);
+                // product.Name = formData.Name;
+                if (Img != null)
+                {
+                    Utility utility = new Utility();
+                    string saveName = await utility.Upload(Img, _env);
+
+                    product.Name = formData.Name;
+                    product.Description = formData.Description;
+                    product.Price = formData.Price;
+                    product.Discount = formData.Discount;
+                    product.Image = saveName;
+
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    product.Name = formData.Name;
+                    product.Description = formData.Description;
+                    product.Price = formData.Price;
+                    product.Discount = formData.Discount;
+
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Index");
+                // return Ok(product);
+            }
+            catch (System.Exception)
+            {
+                throw;
+
+                // return RedirectToAction("Index");
             }
         }
     }

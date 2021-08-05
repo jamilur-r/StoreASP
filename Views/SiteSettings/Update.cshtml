@@ -1,0 +1,29 @@
+@using StoreASP.Models.FormModel
+@model SiteSettingsForm
+
+@{
+    ViewData["Title"] = "Update Site Information";
+}
+
+<div class="absolute top-16 left-16 w-full h-screen">
+    <p>@ViewBag.Error</p>
+    <form enctype="multipart/form-data" asp-controller="SiteSettings" asp-action="Update" method="post"
+        class="ml-5 w-80 flex flex-col items-start justify-center">
+        <h1 class="my-5 text-xl text-second font-bold uppercase flex flex-row items-center justify-center">
+           <a asp-controller="SiteSettings" asp-action="Index" class="mr-2"><i data-feather="arrow-left"></i></a> Update site information
+        </h1>
+
+        <div asp-validation-summary="All" class="text-xs text-red-500"></div>
+        <input type="text" hidden value="@Model.Id" name="Id">
+        <label asp-for="StoreName" class="text-sm font-bold"></label>
+        <input asp-for="StoreName" placeholder="Store Name" class="my-3 px-2 py-2 w-full text-prime text-sm font-bold" value="@Model.StoreName">
+
+        <label asp-for="Description" class="text-sm font-bold"></label>
+        <input asp-for="Description" placeholder="Description" class="my-3 px-2 py-2 w-full text-prime text-sm font-bold" value="@Model.Description">
+        
+        <label for="Logo" class="text-sm font-bold">Logo</label>
+        <input for="Logo"name="Logo" type="file" accept="image/*|MIME_type" class="my-3 px-2 py-2 w-full bg-second text-prime">
+        
+        <input type="submit" class="my-3 px-2 py-3 bg-second text-prime font-sm font-bold w-full" value="Update">
+    </form>
+</div>
