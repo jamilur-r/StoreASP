@@ -22,4 +22,43 @@
         </div>
     </div>
 </div>
-@* </div> *@
+
+<div class="con my-5">
+    @if (Model.Products.Count > 0)
+    {
+        <h1 class="font-bold text-xl my-5">Products</h1>
+    }
+    else
+    {
+        <h1 class="font-bold text-xl my-5">No Product To Show</h1>
+    }
+</div>
+@if (Model.Products.Count > 0)
+{
+    <div class="my-5 con grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        @foreach (var item in Model.Products)
+        {
+            <div class="w-full flex flex-col items-center justify-center shadow-md p-4 bg-white rounded-md relative">
+                <img src="~/@item.Image" alt="@item.Name" class="w-full rounded-md shadow-sm h-80">
+                <h2 class="text-center font-bold my-3 text-base text-prime">@item.Name</h2>
+                @if (item.Discount > 0)
+                {
+                    <p class="text-sm text-red-500 line-through font-pop font-semibold">@item.Price /-</p>
+                    <p class="text-sm text-prime font-pop font-semibold">@(Math.Round(item.Price - (item.Price * item.Discount), 2))
+                        /-</p>
+                    <p class="absolute top-8 left-8 p-2 rounded-full bg-red-500 text-white text-xs font-extrabold">
+                        @(Math.Round(item.Discount * 100, 2)) % Off</p>
+                }
+                else
+                {
+                    <p class="text-sm text-prime font-pop font-semibold">@item.Price /-</p>
+                }
+                <form asp-action="AddNew" asp-controller="Cart" class="absolute top-8 right-8">
+                    @Html.AntiForgeryToken()
+                    <input type="text" hidden value="@item.Id" name="ProductId">
+                    <button class="p-3 bg-prime text-second rounded-md"><i data-feather="shopping-bag"></i></button>
+                </form>
+            </div>
+        }
+    </div>
+}

@@ -19,6 +19,36 @@ namespace StoreASP.Migrations.SiteDB
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("CartCartItem", b =>
+                {
+                    b.Property<Guid>("CartsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ItemsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CartsId", "ItemsId");
+
+                    b.HasIndex("ItemsId");
+
+                    b.ToTable("CartCartItem");
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<Guid>("OrdersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("OrdersId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("OrderProduct");
+                });
+
             modelBuilder.Entity("StoreASP.Models.Cart", b =>
                 {
                     b.Property<Guid>("Id")
@@ -41,15 +71,10 @@ namespace StoreASP.Migrations.SiteDB
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CartId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("ItemId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CartId");
 
                     b.HasIndex("ItemId");
 
@@ -62,9 +87,6 @@ namespace StoreASP.Migrations.SiteDB
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BuyerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<float>("GrandTotal")
                         .HasColumnType("real");
 
@@ -73,8 +95,6 @@ namespace StoreASP.Migrations.SiteDB
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BuyerId");
 
                     b.ToTable("Orders");
                 });
@@ -101,15 +121,10 @@ namespace StoreASP.Migrations.SiteDB
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Products");
                 });
@@ -176,6 +191,9 @@ namespace StoreASP.Migrations.SiteDB
                     b.Property<string>("NormalizedUserName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -196,7 +214,39 @@ namespace StoreASP.Migrations.SiteDB
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrderId");
+
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("CartCartItem", b =>
+                {
+                    b.HasOne("StoreASP.Models.Cart", null)
+                        .WithMany()
+                        .HasForeignKey("CartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StoreASP.Models.CartItem", null)
+                        .WithMany()
+                        .HasForeignKey("ItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.HasOne("StoreASP.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StoreASP.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("StoreASP.Models.Cart", b =>
@@ -210,10 +260,6 @@ namespace StoreASP.Migrations.SiteDB
 
             modelBuilder.Entity("StoreASP.Models.CartItem", b =>
                 {
-                    b.HasOne("StoreASP.Models.Cart", null)
-                        .WithMany("Items")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("StoreASP.Models.Product", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId");
@@ -221,30 +267,16 @@ namespace StoreASP.Migrations.SiteDB
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("StoreASP.Models.Order", b =>
-                {
-                    b.HasOne("StoreASP.Models.User", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerId");
-
-                    b.Navigation("Buyer");
-                });
-
-            modelBuilder.Entity("StoreASP.Models.Product", b =>
+            modelBuilder.Entity("StoreASP.Models.User", b =>
                 {
                     b.HasOne("StoreASP.Models.Order", null)
-                        .WithMany("Products")
+                        .WithMany("Buyer")
                         .HasForeignKey("OrderId");
                 });
 
-            modelBuilder.Entity("StoreASP.Models.Cart", b =>
-                {
-                    b.Navigation("Items");
-                });
-
             modelBuilder.Entity("StoreASP.Models.Order", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Buyer");
                 });
 #pragma warning restore 612, 618
         }

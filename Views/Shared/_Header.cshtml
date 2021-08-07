@@ -7,10 +7,12 @@
 
     <nav class="w-full h-16 shadow-md">
         <div class="con h-full flex flex-row items-center justify-between">
-            @if (Model != null)
+            @if (Model.Settings != null)
             {
-                <a asp-controller="Home" asp-action="Index" class="text-second font-bold text-base flex flex-row items-center justify-center">
-                    <img src="~/@Model.Logo" runat="server" alt="@Model.StoreName" class="h-12 w-12 rounded-full"> <span class="ml-3">@Model.StoreName</span>
+                <a asp-controller="Home" asp-action="Index"
+                class="text-second font-bold text-base flex flex-row items-center justify-center">
+                    <img src="~/@Model.Settings.Logo" runat="server" alt="@Model.Settings.StoreName"
+                    class="h-12 w-12 rounded-full"> <span class="ml-3">@Model.Settings.StoreName</span>
                 </a>
             }
             else
@@ -52,7 +54,10 @@
 
                         </div>
                     </div>
-                    <a class="mr-3"><i data-feather="shopping-bag"></i></a>
+                    <a class="mr-3">
+                        @* <p class="text-xs font-bold bg-second text-prime p-2 rounded-full">@Model.ItemCount</p> *@
+                        <i data-feather="shopping-bag"></i>
+                    </a>
                 }
                 else
                 {

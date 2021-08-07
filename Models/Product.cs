@@ -1,11 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace StoreASP.Models
 {
     public class Product
     {
-
+        public Product()
+        {
+            this.Orders = new HashSet<Order>();
+        }
         [Key]
         public Guid Id { get; set; }
 
@@ -31,6 +35,6 @@ namespace StoreASP.Models
         [Required]
         [Display(Name = "Image")]
         public string Image { get; set; }
-        
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

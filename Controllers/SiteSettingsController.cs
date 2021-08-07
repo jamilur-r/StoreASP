@@ -97,19 +97,12 @@ namespace StoreASP.Controllers
         {
             try
             {
-                if (Id != null)
-                {
-                    SiteSettings settings = await _context.SiteSettingss.FindAsync(Id);
-                    _context.SiteSettingss.Remove(settings);
-                    await _context.SaveChangesAsync();
+                SiteSettings settings = await _context.SiteSettingss.FindAsync(Id);
+                _context.SiteSettingss.Remove(settings);
+                await _context.SaveChangesAsync();
 
 
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return RedirectToAction("Index");
-                }
+                return RedirectToAction("Index");
             }
             catch (System.Exception)
             {

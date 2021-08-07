@@ -26,8 +26,12 @@ namespace StoreASP.Controllers
         public IActionResult Index()
         {
             SiteSettings store = _Context.SiteSettingss.FirstOrDefault();
-            HomeView data = new HomeView{
-                Store = store
+            List<Product> products = _Context.Products.OrderBy(item => item.Name).ToList();
+
+            HomeView data = new HomeView
+            {
+                Store = store,
+                Products = products
             };
 
             return View(data);

@@ -6,10 +6,14 @@ namespace StoreASP.Models
 {
     public class CartItem
     {
+        public CartItem()
+        {
+            this.Carts = new HashSet<Cart>();
+        }
         [Key]
         public Guid Id { get; set; }
         [Required]
-        public virtual Product Item {get; set;}
-
+        public  Product Item {get; set;}
+        public virtual ICollection<Cart> Carts {get; set;}
     }
 }
